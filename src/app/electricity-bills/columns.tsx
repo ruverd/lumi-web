@@ -5,6 +5,7 @@ import { ArrowUpDown, Download } from 'lucide-react';
 import * as z from 'zod';
 
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 const ElectricityBillSchema = z.object({
   id: z.string(),
@@ -106,14 +107,18 @@ export const electricityBillColumns: ColumnDef<
   },
   {
     id: 'actions',
-    cell: ({ row }) => {
+    cell: async ({ row }) => {
       const electricityBill = row.original;
+
+      const url = `${process.env.NEXT_PUBLIC_API_URL}/${electricityBill.fileName}`;
 
       return (
         <div className='flex justify-end'>
-          <Button variant='ghost' size={'icon'}>
-            <Download size={16} />
-          </Button>
+          <Link href={`${url}`} target='_blank'>
+            <Button variant='ghost' size={'icon'}>
+              <Download size={16} />
+            </Button>
+          </Link>
         </div>
       );
     },
