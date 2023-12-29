@@ -71,7 +71,17 @@ export function DashboardProvider({
     );
   }, [electricityBills, filter]);
 
-  const totalClients = 10;
+  const totalClients = useMemo(() => {
+    const clients = electricityBills.reduce((acc, item) => {
+      if (!acc.includes(item.client.clientNumber)) {
+        acc.push(item.client.clientNumber);
+      }
+
+      return acc;
+    }, [] as string[]);
+
+    return clients.length;
+  }, [electricityBills]);
 
   const totalElectricityBills = useMemo(() => {
     return filteredData.length;
